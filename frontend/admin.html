@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1e40af;
+      --bg: #f4f6f9;
+      --card-bg: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --success: #16a34a;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* ===== Header ===== */
+    .header {
+      background: #0f172a;
+      color: #fff;
+      padding: 18px 32px;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    /* ===== Layout ===== */
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 30px;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ===== Cards ===== */
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+      padding: 28px;
+    }
+
+    .card h2 {
+      margin: 0 0 20px;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    /* ===== Login ===== */
+    .login-group {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .login-group input {
+      padding: 12px 14px;
+      font-size: 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      outline: none;
+    }
+
+    .login-group input:focus {
+      border-color: var(--primary);
+    }
+
+    .login-group button {
+      margin-top: 10px;
+      padding: 12px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 500;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .login-group button:hover {
+      background: var(--primary-dark);
+    }
+
+    /* ===== Questions ===== */
+    .questions-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .questions-header span {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    li {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      background: #fafafa;
+    }
+
+    li strong {
+      display: block;
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+
+    li input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    li input:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
+
+    li button {
+      padding: 10px 16px;
+      background: var(--success);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .filter-box {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 14px;
+}
+
+.filter-box:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+    li button:hover {
+      opacity: 0.9;
+    }
+
+    /* ===== Footer ===== */
+    .footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    NEXVIBE CHATBOT ADMIN PANEL
+  </div>
+
+  <div class="container">
+    <div class="grid">
+
+      <!-- Login Card -->
+      <div class="card">
+        <h2>Admin Login</h2>
+        <div class="login-group">
+          <input id="user" placeholder="Username">
+          <input id="pass" placeholder="Password" type="password">
+          <button onclick="login()">Login</button>
+        </div>
+      </div>
+
+      <!-- Questions Card -->
+      <div class="card">
+        <div class="questions-header">
+          <h2>Unanswered Questions</h2>
+          <span>Admin-only access</span>
+        </div>
+        <input id="filterInput" class="filter-box" placeholder="Filter unanswered questions..." onkeyup="filterQuestions()">
+        <button onclick="cleanupDuplicates()"
+        style="
+          margin-bottom: 15px;
+          padding: 10px 14px;
+          background: #7c3aed;
+          color: white;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+        ">
+  🧹 Clean Duplicates & Similar
+</button>
+
+
+        <ul id="questions"></ul>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    © 2025 NEXVIBE AI Admin Panel
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
